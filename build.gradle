@@ -25,7 +25,7 @@ repositories {
     mavenCentral() { metadataSources { mavenPom(); ignoreGradleMetadataRedirection() } }
 }
 
-group 'org.revapi'
+group 'com.natigbabayev'
 version System.env.RELEASE_VERSION ?: gitVersion()
 
 apply plugin: 'com.palantir.external-publish'
@@ -71,15 +71,15 @@ test {
 }
 
 gradlePlugin {
-    website = 'https://github.com/revapi/gradle-revapi'
-    vcsUrl = 'https://github.com/revapi/gradle-revapi'
+    website = 'https://github.com/natiginfo/gradle-revapi'
+    vcsUrl = 'https://github.com/natiginfo/gradle-revapi'
 
     plugins {
         revapi {
-            id = 'org.revapi.revapi-gradle-plugin'
+            id = 'com.natigbabayev.gradle-revapi'
             displayName = 'API/ABI backwards compatibility for Java libraries using Revapi'
             description = 'API/ABI backwards compatibility for Java libraries using Revapi'
-            implementationClass = 'org.revapi.gradle.RevapiPlugin'
+            implementationClass = 'com.natigbabayev.revapi.gradle.RevapiPlugin'
             tags.set(['versions', 'api', 'abi'])
         }
     }

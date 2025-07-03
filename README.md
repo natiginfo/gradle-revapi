@@ -1,35 +1,67 @@
-<p align="right">
-<a href="https://autorelease.general.dmz.palantir.tech/palantir/gradle-revapi"><img src="https://img.shields.io/badge/Perform%20an-Autorelease-success.svg" alt="Autorelease"></a>
-</p>
+# gradle-revapi-simple
 
-# gradle-revapi
+🚧 **Early Stage Fork** - This is a simplified fork of the gradle-revapi plugin focused on ease of use and configurability.
 
-This is a fork of the well-known `gradle-revapi` plugin from https://github.com/palantir/gradle-revapi and has been moved under the `revapi` umbrella.
-For additional details please refer to https://github.com/revapi/revapi/issues/296.
+**Original Plugin**: https://github.com/palantir/gradle-revapi  
+**Forked from**: https://github.com/revapi/gradle-revapi  
+**Status**: Early development - expect breaking changes  
+**Goal**: Create a more configurable and simpler API compatibility checker, with future plans for Android library support
 
-_A gradle plugin which runs [Revapi](https://revapi.org) to warn you when there are breaks to your Java library's
-public API or ABI._
+_A simplified Gradle plugin that runs [Revapi](https://revapi.org) to detect API/ABI breaks in your Java libraries._
 
-Using the plugin should be as simple as:
+## Key Differences from Original
 
-1. Adding the plugin to your buildscript:
-    ```gradle
-    buildscript {
-        // ...
+- ✅ **Explicit JAR Support**: Direct file-based API comparison without Git dependency
+- ✅ **Simplified Configuration**: Reduced complexity for common use cases  
+- ✅ **Removed Git Integration**: No automatic Git tag detection - explicit configuration required
+- 🚧 **Future Android Support**: Planned enhanced support for Android libraries
 
-        dependencies {
-            classpath 'org.revapi:gradle-revapi:<latest-version>'
-        }
-    }
-    ```
+## Quick Start
 
-1. And then apply the plugin to all the projects you want to ensure API compatibility:
-    ```diff
-    // In my Java project's build.gradle that publishes a jar
-    +apply plugin: 'org.revapi.revapi-gradle-plugin'
-    ```
+### Basic Usage (Explicit JAR Comparison)
 
-1. Revapi will be run as part of `./gradlew check`. Alternatively, you can call `./gradlew revapi` directly.
+```gradle
+plugins {
+    id 'com.natigbabayev.gradle-revapi' version '0.1.0'
+}
+
+revapi {
+    oldJar = file('libs/mylib-1.0.0.jar')
+    newJar = file('libs/mylib-2.0.0.jar')
+}
+```
+
+Run: `./gradlew revapi`
+
+### Traditional Usage (Maven Repository)
+
+```gradle
+plugins {
+    id 'com.natigbabayev.gradle-revapi' version '0.1.0'
+    id 'java-library'
+}
+
+revapi {
+    oldGroup = 'com.example'
+    oldName = 'my-library'
+    oldVersion = '1.0.0'  // Must be explicitly set - no Git auto-detection
+}
+```
+
+Run as part of `./gradlew check` or directly with `./gradlew revapi`.
+
+**Note**: Unlike the original plugin, this fork does not automatically detect previous versions from Git tags. You must explicitly specify the `oldVersion`.
+
+### Advanced: Mixed Mode
+
+You can also mix explicit JARs with automatic resolution:
+
+```gradle
+revapi {
+    oldJar = file('path/to/old-version.jar')  // Explicit old JAR
+    // newJar will be auto-resolved from current project
+}
+```
 
 ## Motivation
 
@@ -84,7 +116,7 @@ error message `gradle-revapi` produces.
   ./gradlew revapiAcceptAllBreaks
   ```
 
-Running any of these tasks will add the breaks to the `.palantir/revapi.yml` file in the format"
+Running any of these tasks will add the breaks to the `.revapi/revapi.yml` file in the format"
 
 ```yml
 acceptedBreaks:
@@ -107,7 +139,7 @@ use the
 ./gradle revapiVersionOverride --replacement-version <last-published-version>
 ```
 
-task to use correctly published version instead. This will creare an entry in `.palantir/revapi.yml` of the following
+task to use correctly published version instead. This will creare an entry in `.revapi/revapi.yml` of the following
 format:
 
 ```yml
@@ -115,7 +147,50 @@ versionOverrides:
   group:name:version: versionOverride
 ```
 
-### Releasing a new version of the plugin
+## Publishing This Fork
 
-A new version of the plugin can be released by manually triggering the `Release new plugin version` GH action.
-If necessary, a new version can also be manually released via `./gradlew publishPlugins` while locally exporting the env variables `RELEASE_VERSION`, `GRADLE_KEY`, `GRADLE_SECRET`.
+This section explains how to publish your own version of this plugin.
+
+### Prerequisites
+
+1. **Gradle Plugin Portal Account**: Sign up at https://plugins.gradle.org/
+2. **API Keys**: Get your API key and secret from your account settings
+3. **GitHub Repository**: Fork this repository to your own GitHub account
+
+### Steps to Publish
+
+1. **Update Repository URLs**: 
+   ```gradle
+   // In build.gradle, update these lines:
+   website = 'https://github.com/yourusername/gradle-revapi-simple'
+   vcsUrl = 'https://github.com/yourusername/gradle-revapi-simple'
+   ```
+
+2. **Set Environment Variables**:
+   ```bash
+   export GRADLE_KEY="your-api-key"
+   export GRADLE_SECRET="your-api-secret"
+   export RELEASE_VERSION="1.0.0"  # Your desired version
+   ```
+
+3. **Publish to Gradle Plugin Portal**:
+   ```bash
+   ./gradlew publishPlugins
+   ```
+
+### Alternative: Local Publishing
+
+For testing or private use:
+```bash
+./gradlew publishToMavenLocal
+```
+
+### Publishing Checklist
+
+- [ ] Update plugin version in `gradle.properties` or via `RELEASE_VERSION`
+- [ ] Update repository URLs in `build.gradle`
+- [ ] Test the plugin locally (`./gradlew build`)
+- [ ] Update README with your plugin ID and usage instructions
+- [ ] Publish to Gradle Plugin Portal
+- [ ] Tag the release in Git
+- [ ] Update GitHub release notes
