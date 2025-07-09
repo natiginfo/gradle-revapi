@@ -1,12 +1,12 @@
 # gradle-revapi Fork Context
 
 ## Project Overview
-🚧 **gradle-revapi** is a simplified fork of the original gradle-revapi plugin focused on ease of use and configurability. This fork removes Git integration and provides explicit JAR support for API/ABI compatibility checking.
+🚧 **gradle-revapi** is a simplified fork of the original gradle-revapi plugin with backwards compatibility checking and focus on Android libraries using Revapi. This fork removes Git integration and provides explicit JAR support for API/ABI compatibility checking.
 
 **Original Plugin**: https://github.com/palantir/gradle-revapi  
 **Forked from**: https://github.com/revapi/gradle-revapi  
 **Status**: Early development fork - expect breaking changes  
-**Goal**: Create a more configurable and simpler API compatibility checker
+**Goal**: Backwards compatibility checking with focus on Android libraries using Revapi
 
 ## Key Information
 
