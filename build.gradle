@@ -77,8 +77,8 @@ gradlePlugin {
     plugins {
         revapi {
             id = 'com.natigbabayev.gradle-revapi'
-            displayName = 'API/ABI backwards compatibility for Java libraries using Revapi'
-            description = 'API/ABI backwards compatibility for Java libraries using Revapi'
+            displayName = 'Backwards compatibility checking with focus on Android libraries using Revapi'
+            description = 'Backwards compatibility checking with focus on Android libraries using Revapi'
             implementationClass = 'com.natigbabayev.revapi.gradle.RevapiPlugin'
             tags.set(['versions', 'api', 'abi'])
         }

@@ -7,14 +7,14 @@
 **Status**: Early development - expect breaking changes  
 **Goal**: Create a more configurable and simpler API compatibility checker, with future plans for Android library support
 
-_A simplified Gradle plugin that runs [Revapi](https://revapi.org) to detect API/ABI breaks in your Java libraries._
+_Backwards compatibility checking with focus on Android libraries using Revapi._
 
 ## Key Differences from Original
 
 - ✅ **Explicit JAR Support**: Direct file-based API comparison without Git dependency
 - ✅ **Simplified Configuration**: Reduced complexity for common use cases  
 - ✅ **Removed Git Integration**: No automatic Git tag detection - explicit configuration required
-- 🚧 **Future Android Support**: Planned enhanced support for Android libraries
+- 🚧 **Android Library Support**: Early stage support for Android libraries
 
 ## Quick Start
 
